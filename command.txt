@@ -1,0 +1,10 @@
+hi - Say hi. 
+senin - Get IF-39-08's Monday Course Schedule
+selasa - Get IF-39-08's Tuesdya Course Schedule
+rabu - Get IF-39-08's Wednesday Course Schedule
+kamis - Get IF-39-08's Thursday Course Schedule
+jumat - Get IF-39-08's Friday Course Schedule
+sabtu - Get IF-39-08's Saturday Course Schedule
+minggu - Get IF-39-08's Sunday Course Schedule
+sholat - Get Time Prayers Bandung
+data - Get Name and NIM of Students
