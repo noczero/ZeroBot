@@ -191,7 +191,17 @@ bot.onText(/^\/sholat/, function (msg){
 	//var jam = waktu.getHour(); 
 
 	//var waktusholat = PrayerTimes.getTimes(new Date(), [-6.974402, 107.631733], +7);
-
+	var waktusholat = Sholat.getTimes(new Date(), [6.9719, 107.6127], 'auto', 'auto');
+	Sholat.setMethod('ISNA');
+	Sholat.tune({
+		sunrise : - 1 ,
+		fajr : 1 ,
+		dhuhr : 2 ,
+		asr : 4 ,
+		maghrib : -15 ,
+		isha : -4 ,
+		sunset : -15
+	});
 	 bot.sendMessage(msg.chat.id, waktu.toString() + '\n' + 
 	 							 'Imsak :   ' + waktusholat.imsak + '\n' + 
 	 							 'Subuh :   '+ waktusholat.fajr + '\n' +
