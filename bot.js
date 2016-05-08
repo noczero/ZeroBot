@@ -1,11 +1,25 @@
 'use strict'
-
+//var Waktu = require ('util'),
+//	waktu = new Waktu();
 var token = '211504778:AAErCs7jeVMcs33LgAsVTfuJ9tuexCBBkvE';
-var PrayerTimes = require('prayer-times');
+var PrayerTimes = require('prayer-times'),
+	Sholat = new PrayerTimes();
 //prayTimes = new aprayTimes();
 
 var Bot = require('node-telegram-bot-api'),
 	bot = new Bot(token, {polling : true});
+
+var waktusholat = Sholat.getTimes(new Date(), [6.9719, 107.6127], 'auto', 'auto');
+	Sholat.setMethod('ISNA');
+	Sholat.tune({
+		sunrise : - 1 ,
+		fajr : 1 ,
+		dhuhr : 2 ,
+		asr : 4 ,
+		maghrib : -15 ,
+		isha : -4 ,
+		sunset : -15
+	});
 
 console.log('Zero Bot Server Started ...');
 
@@ -45,35 +59,160 @@ bot.onText(/^\/rabu/, function (msg) {
 	});
 });
 
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return hour + ":" + min  ;
+
+}
+
+//Notification
+//Notififcation
+bot.on('message', function (msg) {
+ //  var chatId = msg.chat.id;
+   // photo can be: a file path, a stream or a Telegram file_id
+   //var photo = 'cats.png';
+ //  bot.sendMessage(chatId, '404 : Error Command Not Found');
+   switch ( getDateTime() ){
+	
+	case waktusholat.fajr :
+	bot.sendMessage(msg.chat.id, 'Waktu Subuh');
+	break;
+
+	case waktusholat.dhuhr :
+	bot.sendMessage(msg.chat.id, 'Waktu Zuhur');
+	break;
+
+	case waktusholat.asr :
+	bot.sendMessage(msg.chat.id, 'Waktu Ashar');
+	break;
+
+	case waktusholat.maghrib :
+	bot.sendMessage(msg.chat.id, 'Waktu Maghrib');
+	break;
+
+	case waktusholat.isha :
+	bot.sendMessage(msg.chat.id, 'Waktu Isya');
+	break;
+}
+ });
+// bot.onText(/\/love/, function (msg) {
+//   var chatId = msg.chat.id;
+//   var opts = {
+//       reply_to_message_id: msg.message_id,
+//       reply_markup: JSON.stringify({
+//         keyboard: [
+//           ['Yes, you are the bot of my life ❤'],
+//           ['No, sorry there is another one...']]
+//       })
+//     };
+//     bot.sendMessage(chatId, 'Do you love me?', opts);
+// });
+
+// switch ( getDateTime() ){
+	
+// 	case waktusholat.fajr :
+// 	bot.on('message', function(msg) {
+// 	bot.sendMessage(msg.chat.id, 'Waktu Subuh').then(function () {
+// 		//replysent
+// 		});
+// 	});
+// 	break;
+
+// 	case waktusholat.dhuhr :
+// 	bot.on('message', function(msg) {
+// 	bot.sendMessage(msg.chat.id, 'Waktu Subuh').then(function () {
+// 		//replysent
+// 		});
+// 	});
+// 		break;
+
+// 	case waktusholat.asr :
+// 	bot.on('message', function(msg) {
+// 	bot.sendMessage(msg.chat.id, 'Waktu Subuh').then(function () {
+// 		//replysent
+// 		});
+// 	});
+// 	break;
+
+// 	case waktusholat.maghrib :
+// 	bot.on('message', function(msg) {
+// 	bot.sendMessage(msg.chat.id, 'Waktu Subuh').then(function () {
+// 		//replysent
+// 		});
+// 	});
+// 	break;
+
+// 	case waktusholat.isha :
+// 	bot.on('message', function(msg) {
+// 	bot.sendMessage(msg.chat.id, 'Waktu Subuh').then(function () {
+// 		//replysent
+// 		});
+// 	});
+// 	break;
+// }
+
+
+
+
+bot.getMe().then(function (me) {
+  console.log('Telegram on ', me.username);
+});
+
 bot.onText(/^\/sholat/, function (msg){
 	 //prayTimes.setMethod('ISNA'); 
 
-	var subuh = '04:33';
-	var zuhur = '11:48';
-	var ashar = '15:10';
-	var maghrib = '17:43';
-	var isya = '18:55';
+	var subuh = '[ 04:33 ]';
+	var zuhur = '[ 11:48 ]';
+	var ashar = '[ 15:10 ]';
+	var maghrib = '[ 17:43 ]';
+	var isya = '[ 18:55 ]';
 
-	var waktu = new Date();
+	 var waktu = new Date();
+	//var menit = waktu.getMinutes();
+	//var jam = waktu.getHour(); 
 
 	//var waktusholat = PrayerTimes.getTimes(new Date(), [-6.974402, 107.631733], +7);
 
-	 // bot.sendMessage(msg.chat.id, waktu.toString() + '\n' + 
-	 // 							 'Subuh : '+ waktusholat.fajr + '\n' +
-	 // 							 'Zuhur : '+ waktusholat.dhuhr + '\n' +
-		// 						 'Ashar : '+ waktusholat.asr + '\n' + 
-	 // 							 'Maghrib : '+ waktusholat.maghrib + '\n' +
-	 // 							 'Isya : '+ waktusholat.isha + '\n' +
-	 // 							 'Sun Rise : ' + waktusholat.sunrise).then(function (){
-	 // 							 });
-
 	 bot.sendMessage(msg.chat.id, waktu.toString() + '\n' + 
-	 							 'Subuh : '+ subuh + '\n' +
-	 							 'Zuhur : '+ zuhur + '\n' +
-								 'Ashar : '+ ashar + '\n' + 
-	 							 'Maghrib : '+ maghrib + '\n' +
-	 							 'Isya : '+ isya + '\n' ).then(function (){
+	 							 'Imsak :   ' + waktusholat.imsak + '\n' + 
+	 							 'Subuh :   '+ waktusholat.fajr + '\n' +
+	 							 'Sun Rise :   ' + waktusholat.sunrise + '\n' + 
+	 							 'Zuhur :   '+ waktusholat.dhuhr + '\n' +
+								 'Ashar :   '+ waktusholat.asr + '\n' + 
+	 							 'Sun Set :   ' + waktusholat.sunset + '\n' + 
+	 							 'Maghrib :   '+ waktusholat.maghrib + '\n' +
+	 							 'Isya :   '+ waktusholat.isha + '\n\n' 
+	 							 //'Isya :   '+ getDateTime(hour) + '\n\n' +
+	 							 //'Jam :  ' + getDateTime()
+	 							 ).then(function (){
 	 							 });
+
+	 // bot.sendMessage(msg.chat.id, waktu.toString() + '\n\n' + 
+	 // 							 'Subuh     :'+ '\t\t\t\t' + subuh + '\n' +
+	 // 							 'Zuhur     :'+ '\t\t\t\t\t' + zuhur + '\n' +
+		// 						 'Ashar     :'+ '\t\t\t\t\t' + ashar + '\n' + 
+	 // 							 'Maghrib  :'+ ' \t\t\t'+ maghrib + '\n' +
+	 // 							 'Isya         :'+  ' \t\t\t' + isya + '\n' ).then(function (){
+	 // 							 });
 
 
 	 // bot.sendMessage(msg.chat.id, 'Zuhur : '+ zuhur);
@@ -455,3 +594,4 @@ bot.onText(/^\/data (.+)$/ , function(msg , match){
 
 	}
 });
+
